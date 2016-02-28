@@ -59,7 +59,7 @@ function dbResponse(response) {
 		var obj = parse[key][i];
 		var coord = parse[key][i].geometry.coordinates;
 		var place_name = parse[key][i].properties.Details;
-		addToMap(coord[0], coord[1], place_name, key);
+		addToMap(coord[1], coord[0], place_name, key);
 	    }
 	}
     }
