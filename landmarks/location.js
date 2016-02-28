@@ -7,9 +7,13 @@ var place_icon = marker_path + "rangerstation.png";
 var center_icon = marker_path + "POI.png";
 var lat = 0;
 var lng = 0;
+var clat = 0;
+var clng = 0;
 var myPos = new google.maps.LatLng(lat, lng);
 var infowindow = new google.maps.InfoWindow();
 var map;
+var closest = 0;
+var closest_name;
 
 var mapOptions = {
     zoom: 13,
@@ -45,6 +49,7 @@ function processLocation() {
 
 function dbResponse(response) {
     var parse = JSON.parse(response);
+    var dist;
     for (var key in parse) {
 	if (key == "people" && parse.hasOwnProperty(key)) {
 	    for (var i = 0; i < parse[key].length; i++) {
@@ -59,10 +64,34 @@ function dbResponse(response) {
 		var obj = parse[key][i];
 		var coord = parse[key][i].geometry.coordinates;
 		var place_name = parse[key][i].properties.Details;
+		dist = haversine(coord[1], coord[0]);
+		if (closest == 0 || dist < closest) {
+		    clat = coord[1];
+		    clng = coord[0];
+		    closest = dist;
+		    closest_name = parse[key][i].properties.Location_Name;
+		}
 		addToMap(coord[1], coord[0], place_name, key);
 	    }
 	}
     }
+    var curtitle = "<b>Current Location</b><BR><BR><b>Closest Landmark: </b><BR>" +
+	closest_name + "<BR>" + "<b>Distance: </b>" + closest + " mi";
+    var d1 = {lat: lat, lng: lng};
+    var d2 = {lat: clat, lng: clng};
+
+    var linePath = [
+	d1,
+	d2
+    ];
+    var path = new google.maps.Polyline({
+	path: linePath,
+	strokeColor: '#0000FF',
+	strokeOpacity: 0.45,
+	strokeWeight: 5
+    });
+    path.setMap(map);
+    addToMap(lat, lng, curtitle, "main");
 }
 
 function errorCall(e) {
@@ -88,17 +117,36 @@ function init() {
 function renderMap() {
     myPos = new google.maps.LatLng(lat, lng);
     map.panTo(myPos);
-    addToMap(lat, lng, "Current Location", "main");
 }
 
-function addToMap(lat, lng, title, type)
-{
+Number.prototype.toRad = function() {
+    return this * Math.PI / 180;
+}
+
+function haversine(lat1, lng1) {
+    var R = 6371;
+    var x1 = lat - lat1;
+    var dLat = x1.toRad();
+    var x2 = lng - lng1;
+    var dLon = x2.toRad();
+    var a = Math.sin(dLat/2) * Math.sin(dLat / 2) +
+	Math.cos(lat1.toRad()) * Math.cos(lat.toRad()) *
+	Math.sin(dLon/2) * Math.sin(dLon/2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    var d = R * c;
+
+    return d * 0.621372;
+}
+
+function addToMap(lat, lng, title, type){
     var img;
     if (type == "landmarks") {
 	img = place_icon;
     }
     else if (type == "people") {
 	img = person_icon;
+	var dist = haversine(lat, lng);
+	title = "<b>Login: </b>" + title + "<BR><b>Distaince: </b>" + dist + " mi";
     }
     else {
 	img = center_icon;
