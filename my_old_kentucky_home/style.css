@@ -7,3 +7,10 @@ h1 {
     font-family: 'Helvetica', sans-serif;
     text-align: center;
 }
+
+#music_video {
+    margin-right: auto;
+    margin-left: auto;
+    display: block;
+    width: 50%;
+}
