@@ -35,7 +35,6 @@ el.addEventListener("timeupdate", function() {
 	lyric.innerHTML += song[1];
 	lyric.innerHTML += ps + pb;
 	lyric.innerHTML += "<img src=" + img1 + ' alt="sun shines" height="99" width="200">';
-	lyric.innerHTML += ps;
     }
     else if (time >= 15 && time < 22) {
 	lyric.innerHTML += song[2];
@@ -44,7 +43,6 @@ el.addEventListener("timeupdate", function() {
 	lyric.innerHTML += song[3];
 	lyric.innerHTML += ps + pb;
 	lyric.innerHTML += "<img src=" + img2 + ' alt="corn tops" height="79" width="200">';
-	lyric.innerHTML += ps;
     }
     else if (time >= 28 && time < 36) {
 	lyric.innerHTML += song[4];
