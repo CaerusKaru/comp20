@@ -1,6 +1,6 @@
 
 var user_name = "CAROLE_BRENNAN";
-var url = "https://defense-in-derpth.herokuapp.com/sendLocation";
+var url = "https://stark-shore-99783.herokuapp.com/sendLocation";
 var marker_path = "https://maps.gstatic.com/mapfiles/ms2/micons/";
 var person_icon = marker_path + "man.png";
 var place_icon = marker_path + "rangerstation.png";
