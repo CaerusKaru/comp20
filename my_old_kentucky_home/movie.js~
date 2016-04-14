@@ -1,0 +1,13 @@
+var el = document.getElementById("music_video");
+
+el.addEventListener("timeupdate", function() { 
+    var time = el.currentTime;
+    var lyric = document.getElementById("lyrics");
+    if(time >= 0 && time < 6) {
+	lyric.innerHTML = "<p>Hello world</p>";
+    }
+    else {
+	lyric.innerHTML = "<p>Goodbye world</p>";
+    }
+}, false);
+
