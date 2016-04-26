@@ -1,6 +1,7 @@
-README for COMP20 Assignment 3 (Security and Privacy Report)
+README for COMP20 Assignment 4 (Security and Privacy Report)
 ==
 by: Adam Plumer (aplume01)
+
 Created on: Apr 26, 2016
 
 ------
